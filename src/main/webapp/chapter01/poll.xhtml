@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Current Time</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:outputLabel value="Current Time:" />
+		<p:outputLabel id="currentTime" value="#{serverTimeBean.time}" />
+		<p:poll interval="1" listener="${serverTimeBean.updateTime()}" update="currentTime" />
+		<br />
+		<p:outputLabel value="Current Time:" />
+		<p:outputLabel id="currentTime2" value="#{serverTimeBean.time}" />
+		<p:poll interval="1" listener="${serverTimeBean.updateTime()}" update="currentTime2" widgetVar="currentTimePoller"
+			autoStart="false" />
+		<br />
+		<p:button value="Start" onclick="currentTimePoller.start()" href="#" />
+		<p:button value="Stop" onclick="currentTimePoller.stop()" href="#" />
+		<br />
+	</h:form>
+</h:body>
+</html>

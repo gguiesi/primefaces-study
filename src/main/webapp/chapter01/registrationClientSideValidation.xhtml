@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Registration With Client Side Validation</title>
+	<script type="text/javascript">
+		/* 
+		We got the e-mail field using $("#userForm\\:email"), where userForm is the ID of the form and email is the ID 
+		of the e-mail inputText field. JSF generates the IDs with colon (:) separator, but jQuery has a special meaning
+		for colon .So we have replaced the colon (:) with \\:
+		 */
+		function validateEmail() {
+			var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+			var email = $.trim($("#userForm\\:email").val());
+			if (email == '') {
+				$("#userForm\\:emailMsg").text("");
+				$("#userForm\\:emailMsg").attr("class", "");
+				return;
+			}
+			if (emailReg.test(email)) {
+				$("#userForm\\:emailMsg").text("Valid Email");
+				$("#userForm\\:emailMsg").attr("class",
+						"ui-messages-info ui-widget ui-corner-all ui-messages-info-summary");
+			} else {
+				$("#userForm\\:emailMsg").text("Invalid Email");
+				$("#userForm\\:emailMsg").attr("class",
+						"ui-message-error ui-widget ui-corner-all ui-message-error-detail");
+			}
+		}
+		/* 
+		Instead of replacing the colon by yourself, you can use the PrimeFaces.escapeClientId() utility function as follows:
+		 */
+		function validationEmail2() {
+			var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+			var email = $.trim($(PrimeFaces.escapeClientId("userForm:email")).val());
+			if (email == '') {
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).text("");
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).attr("class", "");
+				return;
+			}
+			if (emailReg.test(email)) {
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).text("Valid Email");
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).attr("class",
+						"ui-messages-info ui-widget ui-corner-all ui-messages-info-summary");
+			} else {
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).text("Invalid Email");
+				$(PrimeFaces.escapeClientId("userForm:emailMsg")).attr("class",
+						"ui-message-error ui-widget ui-corner-all ui-message-error-detail");
+			}
+		}
+	</script>
+</h:head>
+<h:body>
+	<h:form id="userForm">
+		<p:outputLabel value="Email:" />
+		<p:inputText id="email" value="#{userController.registrationUser.email}" onchange="validateEmail();" />
+		<p:message id="emailMsg" for="email" />
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Partial Submit</title>
+</h:head>
+<h:body>
+	<h:form id="userDetailsForm">
+		<p:panel header="User Details Form" style="width: 800px;">
+			<p:messages />
+			<h:panelGrid columns="3">
+
+				<p:outputLabel value="UserId:*" />
+				<p:inputText id="userId" value="#{userController.loginUser.id}" required="true" label="UserId" />
+				<p:message id="userIdMsg" for="userId" />
+
+				<p:outputLabel value="UserName:*" />
+				<p:inputText id="userName" value="#{userController.loginUser.userName}" required="true" label="UserName">
+					<p:ajax event="keyup" listener="#{userController.checkUserNamesExists}" update="userNameMsg" partialSubmit="true" />
+				</p:inputText>
+				<p:message id="userNameMsg" for="userName" />
+
+				<p:outputLabel value="Password:*" />
+				<p:password id="password" value="#{userController.loginUser.password}" required="true" label="Password" />
+				<p:message id="passwordMsg" for="password" />
+
+				<p:outputLabel value="FirstName:*" />
+				<p:inputText id="firstName" value="#{userController.loginUser.firstName}" required="true" label="FirstName" />
+				<p:message id="firstNameMsg" for="firstName" />
+
+				<p:commandButton value="Update" action="#{userController.updateUser}" update="userDetailsForm" />
+				<p:commandButton value="Delete" action="#{userController.deleteUser}" process="@this,userId" partialSubmit="true"
+					update="userDetailsForm" />
+
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
